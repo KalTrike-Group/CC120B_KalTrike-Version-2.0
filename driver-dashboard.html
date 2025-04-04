@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tricycle Hailer - Driver Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="auth.js"></script>
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-indigo-600 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold">Tricycle Hailer - Driver</h1>
+            <div class="flex items-center space-x-4">
+                <span id="driverName" class="font-medium"></span>
+                <button onclick="logout()" class="bg-white text-indigo-600 px-3 py-1 rounded-md hover:bg-gray-100">
+                    Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto p-4">
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-bold mb-4">Driver Dashboard</h2>
+            <p class="text-gray-600">Manage your rides and earnings here.</p>
+            
+            <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-indigo-50 p-4 rounded-lg">
+                    <h3 class="font-semibold text-indigo-800">Available Rides</h3>
+                    <div id="availableRides" class="mt-2 space-y-2">
+                        <!-- Ride requests will appear here -->
+                        <div class="bg-white p-3 rounded shadow">
+                            <p>From: City Center</p>
+                            <p>To: Suburb Area</p>
+                            <p>Fare: ₱50</p>
+                            <button class="mt-2 bg-indigo-600 text-white px-3 py-1 rounded text-sm hover:bg-indigo-700">
+                                Accept Ride
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-green-50 p-4 rounded-lg">
+                    <h3 class="font-semibold text-green-800">Current Ride</h3>
+                    <div id="currentRide" class="mt-2">
+                        <p class="text-gray-500">No active ride</p>
+                    </div>
+                </div>
+
+                <div class="bg-yellow-50 p-4 rounded-lg">
+                    <h3 class="font-semibold text-yellow-800">Earnings</h3>
+                    <div class="mt-2">
+                        <p class="text-2xl font-bold">₱0.00</p>
+                        <p class="text-sm text-gray-500">Today's earnings</p>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h3 class="font-semibold text-blue-800">Ratings</h3>
+                    <div class="mt-2 flex items-center">
+                        <div class="text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <span class="ml-2">4.0 (12 reviews)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Display current driver's name
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (currentUser && currentUser.userType === 'driver') {
+            document.getElementById('driverName').textContent = currentUser.name;
+        } else {
+            window.location.href = 'index.html';
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
+        }
+
+        // Simulate receiving ride requests
+        function simulateRideRequests() {
+            const rides = [
+                {
+                    from: "City Center",
+                    to: "Suburb Area",
+                    fare: 50,
+                    distance: "2.5 km"
+                },
+                {
+                    from: "Market Square",
+                    to: "University",
+                    fare: 40,
+                    distance: "2 km"
+                }
+            ];
+
+            const ridesContainer = document.getElementById('availableRides');
+            ridesContainer.innerHTML = '';
+
+            rides.forEach(ride => {
+                const rideElement = document.createElement('div');
+                rideElement.className = 'bg-white p-3 rounded shadow';
+                rideElement.innerHTML = `
+                    <p>From: ${ride.from}</p>
+                    <p>To: ${ride.to}</p>
+                    <p>Fare: ₱${ride.fare}</p>
+                    <p class="text-sm text-gray-500">Distance: ${ride.distance}</p>
+                    <button onclick="acceptRide(this)" 
+                        class="mt-2 bg-indigo-600 text-white px-3 py-1 rounded text-sm hover:bg-indigo-700">
+                        Accept Ride
+                    </button>
+                `;
+                ridesContainer.appendChild(rideElement);
+            });
+        }
+
+        function acceptRide(button) {
+            const rideCard = button.parentElement;
+            const currentRideContainer = document.getElementById('currentRide');
+            currentRideContainer.innerHTML = rideCard.innerHTML;
+            
+            // Change accept button to complete button
+            const buttons = currentRideContainer.getElementsByTagName('button');
+            if (buttons.length > 0) {
+                buttons[0].textContent = 'Complete Ride';
+                buttons[0].onclick = completeRide;
+            }
+            
+            // Remove from available rides
+            rideCard.remove();
+        }
+
+        function completeRide() {
+            alert('Ride completed! Earnings updated.');
+            document.getElementById('currentRide').innerHTML = 
+                '<p class="text-gray-500">No active ride</p>';
+            simulateRideRequests();
+        }
+
+        // Initialize the dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            simulateRideRequests();
+            setInterval(simulateRideRequests, 10000); // Refresh every 10 seconds
+        });
+    </script>
+</body>
+</html>

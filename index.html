@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KalTrike - Ride Booking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .auth-container {
+            background-image: url('//images/bulanao.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="min-h-screen flex items-center justify-center auth-container">
+        <div class="bg-white bg-opacity-90 p-8 rounded-lg shadow-lg w-full max-w-md">
+            <div class="text-center mb-6">
+                <h1 class="text-3xl font-bold text-gray-800">KalTrike</h1>
+                <p class="text-gray-600">Book rides with local tricycle drivers</p>
+            </div>
+            
+            <!-- Quick toggle between login/register -->
+            <div class="flex mb-6 border-b border-gray-200">
+                <button onclick="renderLoginForm()" id="loginTab" class="flex-1 py-2 font-medium text-indigo-600 border-b-2 border-indigo-600">
+                    Sign In
+                </button>
+                <button onclick="renderRegisterForm()" id="registerTab" class="flex-1 py-2 font-medium text-gray-500 border-b-2 border-transparent">
+                    Create Account
+                </button>
+            </div>
+            
+            <div id="auth-forms">
+                <!-- Forms will be loaded here -->
+            </div>
+            
+            <div class="mt-4 text-center">
+                <button onclick="demoLogin('passenger')" class="text-sm text-indigo-600 hover:text-indigo-500 mr-4">
+                    Demo Passenger
+                </button>
+                <button onclick="demoLogin('driver')" class="text-sm text-indigo-600 hover:text-indigo-500">
+                    Demo Driver
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+</body>
+</html>
