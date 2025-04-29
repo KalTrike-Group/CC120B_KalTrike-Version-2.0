@@ -115,9 +115,5 @@ $rides = $stmt->fetchAll();
             </tbody>
         </table>
     </div>
-    
-    <footer>
-    <?php include '../includes/footer.php'; ?>
-    </footer>
 </body>
 </html>

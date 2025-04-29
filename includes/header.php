@@ -30,11 +30,11 @@ if (session_status() === PHP_SESSION_NONE) {
                         <?php elseif ($_SESSION['user_type'] === 'driver'): ?>
                             <li><a href="<?php echo isset($base_url) ? $base_url : ''; ?>../driver/dashboard.php">Driver Dashboard</a></li>
                             <li><a href="<?php echo isset($base_url) ? $base_url : ''; ?>../driver/earnings.php">My Earnings</a></li>
+                            <li><a href="<?php echo isset($base_url) ? $base_url : ''; ?>../driver/profile.php">My Profile</a></li>
                         <?php else: ?>
                             <li><a href="<?php echo isset($base_url) ? $base_url : ''; ?>../user/dashboard.php">Dashboard</a></li>
                             <li><a href="<?php echo isset($base_url) ? $base_url : ''; ?>../user/book.php">Book a Ride</a></li>
                         <?php endif; ?>
-                        <li><a href="<?php echo isset($base_url) ? $base_url : ''; ?>../user/profile.php">My Profile</a></li>
                         <li><a href="<?php echo isset($base_url) ? $base_url : ''; ?>../logout.php">Logout</a></li>
                     <?php else: ?>
                         <!-- Guest Navigation -->

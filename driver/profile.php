@@ -1,5 +1,6 @@
 <?php
 require_once '../includes/auth.php';
+require_once '../config/database.php';
 redirectIfNotLoggedIn();
 if (!isDriver()) {
     header("Location: ../index.php");
@@ -178,11 +179,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
         </div>
     </div>
-    
-    <footer>
-        <p>&copy; <?php echo date('Y'); ?> KalTrike V2. All rights reserved.</p>
-    </footer>
-    
     <script>
         function openTab(tabName) {
             const tabContents = document.getElementsByClassName("tab-content");

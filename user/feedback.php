@@ -220,9 +220,5 @@ function updateDriverRating($driver_id) {
             <?php endif; ?>
         </div>
     </div>
-    
-    <footer>
-    <?php include '../includes/footer.php'; ?>
-    </footer>
 </body>
 </html>

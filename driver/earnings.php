@@ -140,9 +140,5 @@ for ($i = 6; $i >= 0; $i--) {
             });
         </script>
     </div>
-    
-    <footer>
-    <?php include '../includes/footer.php'; ?>
-    </footer>
 </body>
 </html>

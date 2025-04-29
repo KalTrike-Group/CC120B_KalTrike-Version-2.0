@@ -270,9 +270,5 @@ if ($report_type === 'rides') {
             </div>
         <?php endif; ?>
     </div>
-    
-    <footer>
-    <?php include '../includes/footer.php'; ?>
-    </footer>
 </body>
 </html>

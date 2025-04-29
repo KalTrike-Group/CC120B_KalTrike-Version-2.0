@@ -248,7 +248,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             <?php endif; ?>
         </div>
     </div>
-    
-    <?php include '../includes/footer.php'; ?>
 </body>
 </html>

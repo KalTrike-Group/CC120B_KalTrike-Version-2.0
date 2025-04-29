@@ -56,11 +56,5 @@ if (isLoggedIn()) {
             </div>
         </div>
     </div>
-
-    <footer>
-        <div class="container">
-        <?php include 'includes/footer.php'; ?>
-        </div>
-    </footer>
 </body>
 </html>

@@ -39,6 +39,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = "Driver license, vehicle type and plate number are required";
     }
 
+    // Validate vehicle type
+    if ($user_type === 'driver' && !empty($vehicle_type)) {
+        $allowed_vehicle_types = ['Tricycle', 'Ombak'];
+        if (!in_array($vehicle_type, $allowed_vehicle_types)) {
+            $errors[] = "Invalid vehicle type selected";
+        }
+    }
+
     if (empty($errors)) {
         try {
             $pdo->beginTransaction();
@@ -60,21 +68,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($user_type === 'driver') {
                     $stmt = $pdo->prepare("INSERT INTO drivers (user_id, license_number, vehicle_type, vehicle_plate, status) VALUES (?, ?, ?, ?, 'available')");
                     $stmt->execute([$user_id, $license_number, $vehicle_type, $vehicle_plate]);
-                    
-                    // Set driver_id in session
-                    $_SESSION['driver_id'] = $pdo->lastInsertId();
                 }
                 
                 $pdo->commit();
                 
-                // Log in the user
-                $_SESSION['user_id'] = $user_id;
-                $_SESSION['user_type'] = $user_type;
-                $_SESSION['full_name'] = $full_name;
-                
                 $success = true;
-                header("Location: " . ($user_type === 'driver' ? "driver/dashboard.php" : "user/dashboard.php"));
-                exit();
             }
         } catch (PDOException $e) {
             $pdo->rollBack();
@@ -104,6 +102,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php foreach ($errors as $error): ?>
                         <p><?php echo htmlspecialchars($error); ?></p>
                     <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($success): ?>
+                <div class="alert alert-success">
+                    <p>Registration successful! You can now <a href="login.php">login</a>.</p>
                 </div>
             <?php endif; ?>
             
@@ -149,7 +153,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     
                     <div class="form-group">
                         <label for="vehicle_type">Vehicle Type</label>
-                        <input type="text" id="vehicle_type" name="vehicle_type" value="<?php echo htmlspecialchars($vehicle_type ?? ''); ?>">
+                        <select id="vehicle_type" name="vehicle_type">
+                            <option value="">Select Vehicle Type</option>
+                            <option value="Tricycle" <?php echo ($vehicle_type ?? '') === 'Tricycle' ? 'selected' : ''; ?>>Tricycle</option>
+                            <option value="Ombak" <?php echo ($vehicle_type ?? '') === 'Ombak' ? 'selected' : ''; ?>>Ombak</option>
+                        </select>
                     </div>
                     
                     <div class="form-group">
@@ -174,13 +182,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             if (userType === 'driver') {
                 driverFields.style.display = 'block';
-                // Make driver fields required
                 document.getElementById('license_number').required = true;
                 document.getElementById('vehicle_type').required = true;
                 document.getElementById('vehicle_plate').required = true;
             } else {
                 driverFields.style.display = 'none';
-                // Remove required from driver fields
                 document.getElementById('license_number').required = false;
                 document.getElementById('vehicle_type').required = false;
                 document.getElementById('vehicle_plate').required = false;

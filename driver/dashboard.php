@@ -192,6 +192,5 @@ if ($driver['status'] === 'available') {
         </section>
     </div>
     
-    <?php include '../includes/footer.php'; ?>
 </body>
 </html>

@@ -89,9 +89,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['driver_id'])) {
             </table>
         </div>
     </div>
-    
-    <footer>
-    <?php include '../includes/footer.php'; ?>
-    </footer>
 </body>
 </html>
